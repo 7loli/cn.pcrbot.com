@@ -192,15 +192,20 @@ SUPERUSERS <span class="token operator">=</span> <span class="token punctuation"
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 启动 HoshinoBot</span>
 docker run -d \
            -v <span class="token variable">${PWD}</span>/Hoshino:/HoshinoBot \
+           -v <span class="token variable">${PWD}</span>/Hoshino_data:/root/.hoshino \
            --name hoshino \
            --network qqbot \
            pcrbot/hoshinobot</code></pre>
 <h4 id="配置-yobot"><a href="#配置-yobot" class="headerlink" title="配置 yobot"></a>配置 yobot</h4><p>启动 yobot</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 启动 yobot 并将数据存放在当前目录下 yobot_data 文件夹</span>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 设置一些属性</span>
+<span class="token function">export</span> YOBOT_PUBLIC_ADDRESS<span class="token operator">=</span><span class="token string">"https://your-own-domain-here.com/"</span>  <span class="token comment" spellcheck="true"># 将域名改为你自己的域名</span>
+<span class="token function">export</span> YOBOT_ACCESS_TOKEN<span class="token operator">=</span><span class="token string">"xxxxxx"</span>  <span class="token comment" spellcheck="true"># 此处填写刚才生成的密钥</span>
+
+<span class="token comment" spellcheck="true"># 启动 yobot 并将数据存放在当前目录下 yobot_data 文件夹</span>
 docker run -d \
            -v <span class="token variable">${PWD}</span>/yobot_data:/yobot/yobot_data \
-           -e YOBOT_PUBLIC_ADDRESS<span class="token operator">=</span><span class="token string">"https://your-own-domain-here.com/"</span> \  <span class="token comment" spellcheck="true"># 将域名改为你自己的域名</span>
-           -e YOBOT_ACCESS_TOKEN<span class="token operator">=</span><span class="token string">"xxxxxx"</span> \  <span class="token comment" spellcheck="true"># 此处填写刚才生成的密钥</span>
+           -e YOBOT_PUBLIC_ADDRESS \
+           -e YOBOT_ACCESS_TOKEN \
            --name yobot \
            --network qqbot \
            yobot/yobot:pypy</code></pre>
@@ -455,7 +460,7 @@ hsn <span class="token keyword">set</span> --pip<span class="token operator">=</
 <footer id="footer" class="footer">
   <div class="footer-container">
      
-    <p>&copy; 2020 <a href="/" target="_blank">pcrbot</a></p>
+    <p>&copy; 2021 <a href="/" target="_blank">pcrbot</a></p>
 
     
 
