@@ -163,11 +163,9 @@
 </ul>
 <p>请切勿忘记这一点。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>你需一台服务器, 服务器价格昂贵, 但你只是想用来部署机器人的话,你可以租用服务器厂商的 虚拟服务器 ( vps ) 。当前, 境内的服务器大厂多数有学生优惠, 你可以在完成学生验证之后以超实惠的价格买到一台虚拟服务器。如果你不是学生, <del>你可尝试去某宝当假学生。</del></p>
-<p><del>目前最划算的境内服务器是:阿里云轻量应用服务器, 配置为 1h2g5m , 价格为 9.5 r / 月</del><br>没啦, 你来晚啦, 阿里云不给啦。</p>
-<p>其他性价比较高的服务器有:阿里云 ECS ( 学生优惠 ) , 腾讯云新用户优惠, 配置为 1h2g5m 。腾讯云学生优惠, 配置为 1h2g1m 。<br>我的个人感受是腾讯云的配置高过阿里云。</p>
-<p>如果你使用的是境内服务器, 直接随便找个上海的 vps 就行。</p>
-<p><del>境外服务器推荐: 你可以选 <a href="https://console.cloud.google.com/?hl=zh-CN" target="_blank" rel="noopener">谷歌云</a> ,<a href="https://www.oracle.com/cn/cloud/free/" target="_blank" rel="noopener">甲骨文云</a> ( 完成信用卡认证后免费 ), <a href="https://vultr.com/" target="_blank" rel="noopener">vultr</a> ( 非常便宜, cpu 有点拉跨, 总体而言性价比算高 ), <a href="https://bandwagonhost.com/index.php" target="_blank" rel="noopener">搬瓦工</a> (涨价后不香了, 但是支付方便, 另外坑多) , <a href="https://oneprovider.com/" target="_blank" rel="noopener">oneprivide</a> ( 便宜, 支付方便, 较划算, 客服有点糟糕 )。<a href="https://www.linode.com/" target="_blank" rel="noopener">linode</a> (便宜, 挺好, 不支持极为先进的支付宝, 必须信用卡)。</del></p>
-<p>呜呜呜, 我错了 ! 我不应该乱推荐服务器, 境外服务器水实在深, 这个建议去找专家。。<br>顺带一提我自己用的是 aws 。</p>
+<p>目前境内大厂推出的活动 ( 例如学生优惠 / 开发者优惠 ) 都比较实惠, 尤其是某良心云 ( 自行在搜索 “ 良心云 “ ) 时不时出点香爆的活动, 可自行关注, 不要原价购买, <del><strong>除非你真的很有钱</strong></del>。</p>
+<p><del>境外服务器推荐:</del></p>
+<p>我也不知道, 我也想知道, 觉得好的请务必推荐给我。。</p>
 <p>如果你实在不知道如何选择, 你可以尝试使用 <a href="https://tools.ipip.net/ping.php" target="_blank" rel="noopener">ipip.net 提供的 ping 功能</a> , ping 一下 mswifi.3g.qq.com , 然后按响应时间排序, 在 ping 的地点那一列能看到服务器的提供商, 优先选择 ping 值低的提供商。</p>
 <h3 id="选择服务器的系统镜像"><a href="#选择服务器的系统镜像" class="headerlink" title="选择服务器的系统镜像"></a>选择服务器的系统镜像</h3><p>本教程测试环境是 CentOS 7.6 和 Ubuntu 18.04 , 未在 Debian 上进行测试, 理论上和 Ubuntu 应该一样。<br>因此我建议你使用 CentOS 7.* 或者 Ubuntu 18.04 ( 20.04 也可行) 。</p>
 <h2 id="开始部署"><a href="#开始部署" class="headerlink" title="开始部署"></a>开始部署</h2><p>第一步, 你需要连接上你的服务器, 本教程指令均不出现 <code>sudo</code> , 为了不出现  <code>Permission denied</code> 的错误, 请直接在 root 账户执行指令。</p>
@@ -188,14 +186,14 @@ apt -y update
 apt -y install build-essential
 apt -y install -y make libssl-dev zlib1g-dev libbz2-dev libpcre3 libpcre3-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libperl-dev libncursesw5-dev xz-utils tk-dev zlib1g libffi-dev liblzma-dev screen git vim openssl gcc</code></pre>
 <h3 id="安装-Python3-9"><a href="#安装-Python3-9" class="headerlink" title="安装 Python3.9"></a>安装 Python3.9</h3><p>Python 3.9 通过测试。</p>
-<pre class=" language-shell"><code class="language-shell">wget https://www.python.org/ftp/python/3.9.1/Python-3.9.1.tgz
+<pre class=" language-shell"><code class="language-shell">wget https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tgz
 # 下载 Python 源代码
-# 国内源 : https://cn-pan.di.he.cn/Linux/Python-3.9.1.tgz
+# 国内源 : https://mirrors.huaweicloud.com/python/3.9.5/Python-3.9.5.tgz
 
-tar xf Python-3.9.1.tgz
+tar xf Python-3.9.5.tgz
 # 解压
 
-cd Python-3.9.1
+cd Python-3.9.5
 # 进入这个文件夹
 
 # ↓↓↓ CentOS 用户请执行 ↓↓↓
@@ -213,7 +211,7 @@ make&&make install
 
 pip3 install --upgrade pip
 # 境内机器可以加上 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 这个参数加快下载速度</code></pre>
-<p><code>--enable-optimizations</code> 是 Python 编译优化的参数, 编译检查时加上这个参数大约能给 Python 带来 10% 的性能优化。<br>如果 <code>gcc编译器</code> 版本低于 <code>5.4.0</code> , 那么加上这个参数会使 Python 编译失败, CentOS 自带的包管理工具 <code>yum</code> 不能帮你安装 <code>5.4.0</code> 以上的版本, Ubuntu 18.04 和 Debian 10 则分别自带了版本 <code>7.4.0</code> 和 <code>8.3.0</code> 的 <code>gcc编译器</code>。</p>
+<p><code>--enable-optimizations</code> 是 Python 编译优化的参数, 编译检查时加上这个参数大约能给 Python 带来 10% 的性能优化。<br>如果 <code>gcc编译器</code> 版本低于 <code>5.4.0</code> , 那么加上这个参数会使 Python 编译失败, CentOS 自带的包管理工具 <code>yum</code> 不能帮你安装 <code>5.4.0</code> 以上的版本, <del>Ubuntu 或者 Debian 的 <code>apt</code> 却可以。</del></p>
 <p>你也可以自行为你的 CentOS 服务器升级 <code>gcc编译器</code> , 在编译 gcc编译器 的时候需要大量时间, 你可自行借助搜索引擎尝试。</p>
 <h3 id="获取-go-cqhttp"><a href="#获取-go-cqhttp" class="headerlink" title="获取 go-cqhttp"></a>获取 go-cqhttp</h3><p>go-cqhttp 是使用 go 语言对 cqhttp 协议重新实现, 并实现了很多原版 cq-http 没有实现的 api 。<br>四酱老婆好棒！</p>
 <pre class=" language-shell"><code class="language-shell">cd
@@ -223,10 +221,11 @@ mkdir go-cqhttp&&cd go-cqhttp
 # 创建 go-cqhttp 文件夹并将工作路径切换到这个文件夹
 
 wget https://github.com/Mrs4s/go-cqhttp/releases/download/v0.9.39/go-cqhttp-v0.9.39-linux-amd64.tar.gz
-# 国内源 : https://downloads.go-cqhttp.org/artifacts/go-cqhttp-linux-amd64.tar.gz
+# 可使用 github 镜像站提高境内服务器下载 github 文件的速度
+# 例如 hub.fastgit.com, gh.xcw.best, github.dihe.moe
 # 下载 go-cqhttp
 
-tar xf go-cqhttp-v0.9.34-linux-amd64.tar.gz
+tar xf go-cqhttp-v0.9.39-linux-amd64.tar.gz
 # 解压
 
 chmod +x go-cqhttp
@@ -235,8 +234,9 @@ chmod +x go-cqhttp
 ./go-cqhttp
 # 首次运行 go-cqhttp , 在当前目录下生成配置文件 config.hjson
 
-./go-cqhttp update
-# 将 go-cqhttp 升级到最新版</code></pre>
+# ./go-cqhttp update
+# 将 go-cqhttp 更新到最新版本
+# 不推荐</code></pre>
 <h3 id="go-cqhttp-的配置文件"><a href="#go-cqhttp-的配置文件" class="headerlink" title="go-cqhttp 的配置文件"></a>go-cqhttp 的配置文件</h3><p>config.hjson :</p>
 <p>hjson 支持注释, 生成的 config.hjson 有非常详细的注释, 此处不再赘述。注意账号密码需填写准确。</p>
 <p>go-cqhttp 使用明文储存密码, 如果你遇到了困难需要向他人, 请注意截图不要截这一部分。</p>
@@ -291,30 +291,45 @@ chmod +x go-cqhttp
 <pre class=" language-shell"><code class="language-shell">cd
 # 进入到用户文件夹
 
+mkdir pcrbot
+# 创建一个文件夹
+
+cd pcrbot
+# 将工作路径切换到这个文件夹
+
 git clone https://github.com/Ice-Cirno/HoshinoBot.git
 # clone 仓库
 
-cd HoshinoBot
-# 切换工作路径
+</code></pre>
+<p>关于安装依赖 :</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 方法一: 使用 poetry ( 推荐 )</span>
+pip3 <span class="token function">install</span> poetry
+<span class="token comment" spellcheck="true"># 安装 poetry</span>
 
-cp -r hoshino/config_example hoshino/config
-# 复制配置文件
+<span class="token function">wget</span> https://pan.dihe.moe/pyproject.toml
+<span class="token comment" spellcheck="true"># 这是一份写好了的 pyproject.toml</span>
 
-pip3 install -r https://di.he.cn/requirements.txt
-# 小技巧 : 在这条指令的结尾加上 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 切换到境内源
+poetry <span class="token function">install</span>
+<span class="token comment" spellcheck="true"># 等待, 并心存希望吧</span>
+
+<span class="token comment" spellcheck="true"># 方法二: 直接使用 pip</span>
+pip3 <span class="token function">install</span> -r https://pan.dihe.moe/requirements.txt
+<span class="token comment" spellcheck="true"># 可在这个指令后加上 -i http://mirrors.aliyun.com/pypi/simple/ 切换到国内源</span></code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> HoshinoBot
+<span class="token comment" spellcheck="true"># 切换到 HoshinoBot 目录</span>
+
+<span class="token function">cp</span> -r HoshinoBot/hoshino/config_example HoshinoBot/hoshino/config
+<span class="token comment" spellcheck="true"># 复制配置文件示例</span>
 
 vim hoshino/config/__bot__.py
-# 修改配置项以自定义你的机器人, 按照中文注释填好。</code></pre>
+<span class="token comment" spellcheck="true"># 修改配置项以自定义你的机器人, 按照中文注释填好。</span></code></pre>
 <p>若你的服务器有中文乱码的现象, 你可以对照 <a href="https://github.com/Ice-Cirno/HoshinoBot/blob/master/hoshino/config_example/__bot__.py" target="_blank" rel="noopener">这里</a> 的中文注释修改你的配置。</p>
 <h3 id="获取静态资源"><a href="#获取静态资源" class="headerlink" title="获取静态资源"></a>获取静态资源</h3><p>获取合成图片所需要的图包  :</p>
-<pre class=" language-shell"><code class="language-shell">cd ~/HoshinoBot
+<pre class=" language-shell"><code class="language-shell">cd ~/pcrbot/HoshinoBot
 # 切换工作路径
 
-#↓↓↓ 境外服务器请执行 ↓↓↓
-wget https://drive.di.he.cn/res.tar.gz
+wget https://pan.dihe.moe/res.tar.gz
 # 下载静态资源
-# 境内源 : https://cn-pan.di.he.cn/hoshinobot/res.tar.gz
-# 微软, yyds ! 
 
 tar xf res.tar.gz
 # 解压静态资源</code></pre>
@@ -328,9 +343,8 @@ apt -y install fontconfig
 mkdir -p /usr/share/fonts/chinese
 # 创建字体文件夹
 
-wget https://drive.di.he.cn/msyh.tar.gz
+wget https://pan.dihe.moe/msyh.tar.gz
 # 下载字体
-# 国内源 : https://cn-pan.di.he.cn/hoshinobot/msyh.tar.gz
 
 tar zxvf msyh.tar.gz -C /usr/share/fonts/chinese
 # 解压到字体目录
@@ -363,11 +377,15 @@ cd ~/go-cqhttp
 <pre class=" language-shell"><code class="language-shell">screen -S hoshino
 #创建一个新的窗口用于运行 HoshinoBot
 
-cd ~/HoshinoBot
+cd ~/pcrbot/HoshinoBot
 # 切换工作路径
 
-python3 run.py
-# 运行 Hoshino</code></pre>
+# 运行 Hoshino:
+# ↓↓↓ 使用了 poetry 的场合 ↓↓↓
+poetry run python run.py
+
+# ↓↓↓ 直接使用 pip 的场合 ↓↓↓
+python3 run.py</code></pre>
 <p>如果到这里为止一切正常, HoshinoBot 的控制台应该会输出类似于这样的一条日志 :</p>
 <pre class=" language-yaml"><code class="language-yaml"><span class="token punctuation">[</span><span class="token datetime number">2020-09-21 22:30:45</span><span class="token punctuation">,</span><span class="token number">435</span><span class="token punctuation">]</span> 127.0.0.1<span class="token punctuation">:</span>56363 GET /ws/ 1.1 101 <span class="token punctuation">-</span> <span class="token number">114514</span></code></pre>
 <p>然后, 使用组合键 Ctrl + a ,d 挂起这个窗口。</p>
@@ -377,26 +395,26 @@ python3 run.py
 <p>你可以在 mikan 注册账号之后, 在 <a href="https://mikanani.me/" target="_blank" rel="noopener">这个页面</a> 鼠标右键点击 RSS 订阅 的图标, 点击 复制链接地址, 然后得到这样一条地址</p>
 <p><code>https://mikanani.me/RSS/MyBangumi?token=abcdfegABCFEFG%2b123%3d%3d</code></p>
 <p>将其 token 部分的 <code>%2b</code>替换为<code>+</code> , 将 <code>%2f</code> 替换为 <code>/</code> , 将 <code>%3d</code>替换为 <code>=</code> 后, 得到这样的一个字符串 : <code>abcdfegABCFEFG%2b123==</code> , 这就是你的 rss token。</p>
-<pre class=" language-shell"><code class="language-shell">vim ~/HoshinoBot/hoshino/config/mikan.py</code></pre>
+<pre class=" language-shell"><code class="language-shell">vim ~/pcrbot/HoshinoBot/hoshino/config/mikan.py</code></pre>
 <p>将它填写到 <code>mikan.py</code> 吧。</p>
 <h4 id="报时文本"><a href="#报时文本" class="headerlink" title="报时文本"></a>报时文本</h4><p>编写报时文本是个体力活, 你可以使用别人编写好了的, </p>
-<pre class=" language-shell"><code class="language-shell">cd ~/HoshinoBot/hoshino/config
+<pre class=" language-shell"><code class="language-shell">cd ~/pcrbot/HoshinoBot/hoshino/config
 # 切换工作路径
 
 rm -f hourcall.py
 # 删除空配置文件
 
-wget https://cn-pan.di.he.cn/hoshinobot/hourcall.py
+wget https://pan.dihe.moe/hourcall.py
 # 下载报时文本</code></pre>
 <h4 id="推特转发"><a href="#推特转发" class="headerlink" title="推特转发"></a>推特转发</h4><p>需推特开发者账号, 可在 <a href="https://developer.twitter.com/en" target="_blank" rel="noopener">这里</a> 申请, 一旦失败, 此账号将永久失去再次申请的资格。来自中国大陆的申请大概率不通过, 请使用海外手机号提高通过概率。</p>
 <p><strong>注意 : 使用 Google Voice 等虚拟手机号极高概率会使推特账号永久封禁。</strong></p>
 <p>如果你已经具有推特开发者账号, 你可以在 <a href="https://developer.twitter.com/en/portal/apps/new" target="_blank" rel="noopener">这里</a> 创建一个应用, 取得应用的 <code>consumer_key</code> , <code>consumer_secret</code> , <code>access_token_key</code> , <code>access_token_secret</code> 四个参数, 并将其填入配置文件的 <code>twitter.py</code> 。</p>
-<pre class=" language-shell"><code class="language-shell">vim ~/HoshinoBot/hoshino/config/twitter.py</code></pre>
+<pre class=" language-shell"><code class="language-shell">vim ~/pcrbot/HoshinoBot/hoshino/config/twitter.py</code></pre>
 <h4 id="pcrdfans-的授权-key"><a href="#pcrdfans-的授权-key" class="headerlink" title="pcrdfans 的授权 key"></a>pcrdfans 的授权 key</h4><p>使用 pcrdfans 提供的 jjc 查询功能需要 pcrdfans 的授权 key 。</p>
 <p>你可以在 <a href="https://pcrdfans.com/bot" target="_blank" rel="noopener">https://pcrdfans.com/bot</a> 申请。现在申请渠道已关闭。</p>
 <p>如果你已经有了授权 key , 你可以把它填到配置文件的 priconne.py 去。</p>
-<pre class=" language-shell"><code class="language-shell">vim ~/HoshinoBot/hoshino/config/priconne.py</code></pre>
-<h4 id="设置入群欢迎"><a href="#设置入群欢迎" class="headerlink" title="设置入群欢迎"></a>设置入群欢迎</h4><pre class=" language-shell"><code class="language-shell">vim ~/HoshinoBot/hoshino/config/groupmaster.py</code></pre>
+<pre class=" language-shell"><code class="language-shell">vim ~/pcrbot/HoshinoBot/hoshino/config/priconne.py</code></pre>
+<h4 id="设置入群欢迎"><a href="#设置入群欢迎" class="headerlink" title="设置入群欢迎"></a>设置入群欢迎</h4><pre class=" language-shell"><code class="language-shell">vim ~/pcrbot/HoshinoBot/hoshino/config/groupmaster.py</code></pre>
 <p>在 <code>increase_welcome</code> 中按照这样的格式填写 :</p>
 <pre class=" language-json"><code class="language-json">increase_welcome = <span class="token punctuation">{</span>
     <span class="token property">"default"</span><span class="token operator">:</span> <span class="token string">"欢迎入群 ! 你已经是群大佬了, 快来跟群萌新打个招呼吧 ~"</span><span class="token punctuation">,</span>
@@ -405,7 +423,7 @@ wget https://cn-pan.di.he.cn/hoshinobot/hourcall.py
     <span class="token number">1044314369</span><span class="token operator">:</span> <span class="token string">"欢迎来到 yobot 2 群 !"</span><span class="token punctuation">,</span>
     <span class="token number">774394459</span><span class="token operator">:</span> <span class="token string">"欢迎来到 yobot 5 群 !"</span><span class="token punctuation">,</span>
 <span class="token punctuation">}</span></code></pre>
-<h3 id="获取-yobot"><a href="#获取-yobot" class="headerlink" title="获取 yobot"></a>获取 yobot</h3><p>两种安装 yobot 的方法。这里只写一种。<br>第二种安装方法在未来将不被支持。</p>
+<h3 id="获取-yobot"><a href="#获取-yobot" class="headerlink" title="获取 yobot"></a>获取 yobot</h3><p>两种安装 yobot 的方法。这里只写一种。<br>第二种安装方法在未来将不被支持。<del>懂的都懂。</del></p>
 <h4 id="源码运行"><a href="#源码运行" class="headerlink" title="源码运行"></a>源码运行</h4><p>首先修改 go-cqhttp 的示例并重启, 使其同时向 <code>ws://127.0.0.1:8080/ws/</code> 和 <code>ws://127.0.0.1:9222/ws/</code> 上报事件, 下面的配置文件可供参考 :</p>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
     ws_reverse_servers<span class="token operator">:</span> <span class="token punctuation">[</span>
@@ -427,8 +445,9 @@ wget https://cn-pan.di.he.cn/hoshinobot/hourcall.py
     <span class="token punctuation">]</span>
 <span class="token punctuation">}</span></code></pre>
 <p>获取 yobot :</p>
-<pre class=" language-shell"><code class="language-shell">cd
-# 切换工作路径到用户文件夹
+<pre class=" language-shell"><code class="language-shell">cd ~/pcrbot
+# 切换工作路径到 pcrbot 文件夹
+
 git clone https://github.com/yuudi/yobot.git
 # clone 仓库
 
@@ -436,15 +455,22 @@ cd yobot/src/client
 # 切换工作路径
 
 screen -S yobot
-# 创建一个新窗口用于运行 yobot 
+# 创建一个新窗口用于运行 yobot </code></pre>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 使用了 poetry 的场合:</span>
+poetry run python main.py
+<span class="token comment" spellcheck="true"># 生成 yobotg.sh</span>
 
-python3 main.py
-# 生成 yobotg.sh
+vim yobotg.sh
+<span class="token comment" spellcheck="true"># 修改 yobotg.sh 的第七行的 python3 main.py -g 为 poetry run python main.py -g</span>
 
 sh yobotg.sh
-# 启动 yobot
+<span class="token comment" spellcheck="true"># 启动 yobot</span>
 
-#然后, 使用组合键 Ctrl + a , d 挂起这个窗口</code></pre>
+<span class="token comment" spellcheck="true"># 直接使用 pip 的场合:</span>
+python3 main.py
+
+sh yobotg.sh</code></pre>
+<p>然后, 使用组合键 Ctrl + a , d 挂起这个窗口</p>
 <p>私聊或群聊发送 <code>V</code> 或 <code>ver</code> 或 <code>version</code> , bot 会回复 yobot 版本。</p>
 <p>放通端口, 使 yobot 的 web 能在 9222 端口被外部访问 :</p>
 <pre class=" language-shell"><code class="language-shell">firewall-cmd --zone=public --add-port=9222/tcp --permanent
@@ -504,14 +530,14 @@ firewall-cmd --reload
 <h4 id="申请-Let’s-Encrypt-的-ssl-证书"><a href="#申请-Let’s-Encrypt-的-ssl-证书" class="headerlink" title="申请 Let’s Encrypt 的 ssl 证书"></a>申请 Let’s Encrypt 的 ssl 证书</h4><pre class=" language-shell"><code class="language-shell">cd
 # 切换工作路径到用户文件夹
 
-git clone https://github.com/certbot/certbot
-# clone certbot 的仓库
+# CentOS 选手:
+yum -y install certbot
 
-cd certbot
-# 切换工作路径
+# Ubuntu, Debian 选手:
+apt -y install certbot
 
 # 请复制下面一整段命令将其粘贴到一个你喜欢的文本编辑器上, 不要用 Windows 记事本
-./certbot-auto certonly --manual \
+certbot certonly --manual \
 -d *.example.com \
 -d example.com --agree-tos \
 --manual-public-ip-logging-ok --preferred-challenges \
@@ -535,13 +561,40 @@ Before continuing<span class="token punctuation">,</span> verify the record is d
 <pre><code>server {
   listen 80;
   listen [::]:80;
+  server_name example.com;
+  rewrite ^(.*)$ https://$server_name$request_uri;
+}
 
-   listen 443 ssl http2;
-   listen [::]:443 ssl http2;
-   ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+
+  ssl_stapling on;
+  ssl_stapling_verify on;
+
+  ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+  ssl_ciphers &#39;AES128+EECDH:AES128+EDH:!aNULL&#39;;
+
+  ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3;
+  ssl_session_cache shared:SSL:10m;
+
+  resolver 8.8.4.4 8.8.8.8 valid=300s;
+  resolver_timeout 10s;
+
+  ssl_prefer_server_ciphers on;
+  # ssl_dhparam /etc/letsencrypt/live/dhparam.pem;
+
+  add_header Strict-Transport-Security max-age=63072000;
+  add_header X-Frame-Options DENY;
+  add_header X-Content-Type-Options nosniff;
 
   server_name example.com;
+
+  if ($http_user_agent ~* &quot;qihoobot|Baiduspider|Googlebot|Googlebot-Mobile|Googlebot-Image|Mediapartners-Google|Adsbot-Google|Feedfetcher-Google|Yahoo! Slurp|Yahoo! Slurp China|YoudaoBot|Sosospider|Sogou spider|Sogou web spider|MSNBot|ia_archiver|Tomato Bot&quot;)
+    {
+      return 403;
+    }
 
   location /
   {
@@ -550,17 +603,19 @@ Before continuing<span class="token punctuation">,</span> verify the record is d
   }
 
   location /yobot/assets/ {
-    alias /root/yobot/src/client/public/static/; 
+    alias ~/pcrbot/yobot/src/client/public/static/; 
     expires 30d;
   }
 
   location /yobot/output/ {
-    alias /root/yobot/src/client/yobot_data/output/;
+    alias ~/pcrbot/yobot/src/client/yobot_data/output/;
     charset utf-8;
     expires 30d;
   }
-  location /ws/ {
-    deny all;
+
+  error_page   500 502 503 504  /50x.html;
+  location = /50x.html {
+      root   html;
   }
 }</code></pre><p>修改 nginx 的配置文件</p>
 <pre><code>vim /usr/local/nginx/conf/nginx.conf</code></pre><p>需将这个配置文件的内容复制粘贴到 <code>nginx.conf</code> 的第八十一行, 其中的 <code>example.com</code>修改为你自己的域名。</p>
@@ -568,14 +623,14 @@ Before continuing<span class="token punctuation">,</span> verify the record is d
 <p>重启 nginx 使其生效</p>
 <pre class=" language-shell"><code class="language-shell">nginx -s reload</code></pre>
 <p>修改 yobot 的配置文件</p>
-<pre class=" language-shell"><code class="language-shell">vim ~/yobot/src/client/yobot_data/yobot_config.json
+<pre class=" language-shell"><code class="language-shell">vim ~/pcrbot/yobot/src/client/yobot_data/yobot_config.json
 
 # public_adress 字段的值修改为 https://example.com/
 
 # 此处 example.com 替换成你自己的域名</code></pre>
 <h4 id="验证反向代理"><a href="#验证反向代理" class="headerlink" title="验证反向代理"></a>验证反向代理</h4><p>浏览器访问 <code>https://example.com/</code> 应访问到 yobot 的 homepage</p>
 <h4 id="再次提高安全性"><a href="#再次提高安全性" class="headerlink" title="再次提高安全性"></a>再次提高安全性</h4><p>修改 yobot 的配置文件, 仅允许本机监听</p>
-<pre class=" language-shell"><code class="language-shell">vim ~/yobot/src/client/yobot_data/yobot_config.json
+<pre class=" language-shell"><code class="language-shell">vim ~/pcrbot/yobot/src/client/yobot_data/yobot_config.json
 # HOST 字段的值修改为 127.0.0.1
 # 如果你没有做好反向代理的工作, 请不要修改 !</code></pre>
 <h3 id="获取-cq-picsearcher-bot"><a href="#获取-cq-picsearcher-bot" class="headerlink" title="获取 cq-picsearcher-bot"></a>获取 cq-picsearcher-bot</h3><p>这个项目与公主连结并无关系, 但是功能实在优秀, 用户可以根据自己的需要选择安装。</p>
@@ -630,9 +685,8 @@ yarn start
 <h3 id="安装更多功能"><a href="#安装更多功能" class="headerlink" title="安装更多功能"></a>安装更多功能</h3><p>访问 <a href="https://github.com/pcrbot/HoshinoBot-plugins-index" target="_blank" rel="noopener">https://github.com/pcrbot/HoshinoBot-plugins-index</a> 寻找你想要的插件, 并按照说明添加即可。</p>
 <h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>如果不愿意折腾的话可以忽略这一部分。。</p>
 <h3 id="使用-http-协议发图"><a href="#使用-http-协议发图" class="headerlink" title="使用 http 协议发图"></a>使用 http 协议发图</h3><p>默认你已经装好了 nginx , 且未改变过默认配置 ( 如果你在浏览器中访问 &lt;http://你服务器的 ip 地址&gt; 是 nginx 的欢迎页面, 说明你的设置是没问题的 )</p>
-<pre class=" language-shell"><code class="language-shell">wget https://drive.di.he.cn/res.tar.gz
+<pre class=" language-shell"><code class="language-shell">wget https://pan.dihe.moe/res.tar.gz
 # 下载
-# 境内源 : wget https://cn-pan.di.he.cn/hoshinobot/res.tar.gz
 
 tar xf res.tar.gz
 # 解压
