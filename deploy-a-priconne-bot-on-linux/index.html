@@ -180,11 +180,15 @@
 yum -y update
 yum -y groupinstall "Development tools"
 yum -y install wget zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc* libffi-devel make git vim screen
+# 如果你正在使用 ARM 架构的服务器, 请额外执行 yum -y install xz-devel
+# 如果你不明白上面这句话, 直接无视掉
 
 # Debian 、Ubuntu 用户请执行
 apt -y update
 apt -y install build-essential
-apt -y install -y make libssl-dev zlib1g-dev libbz2-dev libpcre3 libpcre3-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libperl-dev libncursesw5-dev xz-utils tk-dev zlib1g libffi-dev liblzma-dev screen git vim openssl gcc</code></pre>
+apt -y install -y make libssl-dev zlib1g-dev libbz2-dev libpcre3 libpcre3-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libperl-dev libncursesw5-dev xz-utils tk-dev zlib1g libffi-dev liblzma-dev screen git vim openssl gcc
+# 如果你正在使用 ARM 架构的服务器, 请额外执行 apt -y install liblzma-dev
+# 如果你不明白上面这句话, 直接无视掉</code></pre>
 <h3 id="安装-Python3-9"><a href="#安装-Python3-9" class="headerlink" title="安装 Python3.9"></a>安装 Python3.9</h3><p>Python 3.9 通过测试。</p>
 <pre class=" language-shell"><code class="language-shell">wget https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tgz
 # 下载 Python 源代码
@@ -213,39 +217,30 @@ pip3 install --upgrade pip
 # 境内机器可以加上 -i https://pypi.tuna.tsinghua.edu.cn/simple/ 这个参数加快下载速度</code></pre>
 <p><code>--enable-optimizations</code> 是 Python 编译优化的参数, 编译检查时加上这个参数大约能给 Python 带来 10% 的性能优化。<br>如果 <code>gcc编译器</code> 版本低于 <code>5.4.0</code> , 那么加上这个参数会使 Python 编译失败, CentOS 自带的包管理工具 <code>yum</code> 不能帮你安装 <code>5.4.0</code> 以上的版本, <del>Ubuntu 或者 Debian 的 <code>apt</code> 却可以。</del></p>
 <p>你也可以自行为你的 CentOS 服务器升级 <code>gcc编译器</code> , 在编译 gcc编译器 的时候需要大量时间, 你可自行借助搜索引擎尝试。</p>
-<h3 id="获取-go-cqhttp"><a href="#获取-go-cqhttp" class="headerlink" title="获取 go-cqhttp"></a>获取 go-cqhttp</h3><p>go-cqhttp 是使用 go 语言对 cqhttp 协议重新实现, 并实现了很多原版 cq-http 没有实现的 api 。<br>四酱老婆好棒！</p>
+<h3 id="获取-go-cqhttp"><a href="#获取-go-cqhttp" class="headerlink" title="获取 go-cqhttp"></a>获取 go-cqhttp</h3><p>go-cqhttp 是使用 go 语言对 cqhttp 协议重新实现, 并实现了很多原版 cq-http 没有实现的 api 。</p>
 <pre class=" language-shell"><code class="language-shell">cd
 # 进入到用户文件夹
 
 mkdir go-cqhttp&&cd go-cqhttp
 # 创建 go-cqhttp 文件夹并将工作路径切换到这个文件夹
 
-wget https://github.com/Mrs4s/go-cqhttp/releases/download/v0.9.39/go-cqhttp-v0.9.39-linux-amd64.tar.gz
+wget https://github.com/Mrs4s/go-cqhttp/releases/download/v1.0.0-beta4/go-cqhttp_linux_amd64.tar.gz
 # 可使用 github 镜像站提高境内服务器下载 github 文件的速度
-# 例如 hub.fastgit.com, gh.xcw.best, github.dihe.moe
+# 例如 hub.fastgit.com, github.dihe.moe
 # 下载 go-cqhttp
 
-tar xf go-cqhttp-v0.9.39-linux-amd64.tar.gz
+tar xf go-cqhttp_linux_amd64.tar.gz
 # 解压
 
 chmod +x go-cqhttp
 # 给 go-cqhttp 执行权限
 
 ./go-cqhttp
-# 首次运行 go-cqhttp , 在当前目录下生成配置文件 config.hjson
-
-# ./go-cqhttp update
-# 将 go-cqhttp 更新到最新版本
-# 不推荐</code></pre>
-<h3 id="go-cqhttp-的配置文件"><a href="#go-cqhttp-的配置文件" class="headerlink" title="go-cqhttp 的配置文件"></a>go-cqhttp 的配置文件</h3><p>config.hjson :</p>
-<p>hjson 支持注释, 生成的 config.hjson 有非常详细的注释, 此处不再赘述。注意账号密码需填写准确。</p>
-<p>go-cqhttp 使用明文储存密码, 如果你遇到了困难需要向他人, 请注意截图不要截这一部分。</p>
-<p>另外, 还推荐修改一处配置项 :</p>
-<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
-    force_fragmented<span class="token operator">:</span> <span class="token boolean">true</span>
-<span class="token punctuation">}</span></code></pre>
-<p>此处修改是打开强制分片发送消息, 分片发送将会带来更快的速度以及减少一部分腾讯对机器人消息的风控。</p>
-<p>稍后, 你会成功登陆, 当前目录还会生成一个名为 device.json 的文件, 它保存的是登陆设备的信息 :</p>
+# 首次运行 go-cqhttp , 在当前目录下生成配置文件 config.yml</code></pre>
+<h3 id="go-cqhttp-的配置文件"><a href="#go-cqhttp-的配置文件" class="headerlink" title="go-cqhttp 的配置文件"></a>go-cqhttp 的配置文件</h3><p>config.yml:</p>
+<p>请先填写好要作为机器人登录的账号, <strong>暂先不填密码。</strong></p>
+<p>配置文件有详细注释, 此处省略。</p>
+<p>成功登录后还会生成一个名为 device.json 的文件, 它保存的是登陆设备的信息 :</p>
 <pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
     <span class="token property">"protocol"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span> // 设备种类<span class="token punctuation">,</span> 值为 <span class="token number">0</span> 代表 iPad<span class="token punctuation">,</span> 值为 <span class="token number">1</span> 代表 Android 手机<span class="token punctuation">,</span> 值为 <span class="token number">2</span> 代表 Android 手表
     <span class="token property">"display"</span><span class="token operator">:</span> <span class="token string">"xxx"</span><span class="token punctuation">,</span> // 无需考虑的配置项
@@ -255,36 +250,32 @@ chmod +x go-cqhttp
     <span class="token property">"imei"</span><span class="token operator">:</span> <span class="token string">"xxx"</span> // 无需考虑的配置项
 <span class="token punctuation">}</span></code></pre>
 <p>当设备种类设定为 iPad 时, 功能无限制。此时, 用于部署 bot 的账号不能在别的设备上用 QQ HD 登录。<br><del>呜呜呜, 年轻人的第一台 iPad。</del></p>
-<p>当设备种类设定为 Android 手机 时, 功能无限制。此时, 用于部署 bot 的账号不能在别的设备上用手机 QQ 登录。</p>
-<p>当设备种类设定为 Android 手表 时, bot 无法接收 <code>group_notify</code> 事件、无法接收口令红包信息, 也无法收取消息撤回时间。<del>此时, 用于部署 bot 的账号不能在 Android 手表上登录。</del> ( 所以真的有人用手表吗, 别吧 )</p>
+<p>当设备种类设定为 iPhone 手机 时, 功能无限制。此时, 用于部署 bot 的账号不能在别的设备上用手机 QQ 登录。</p>
+<p>当设备种类设定为 Android 手表 时, bot 无法接收 <code>group_notify</code> 事件、无法接收口令红包信息, 也无法收取消息撤回时间。</p>
 <h3 id="配置-go-cqhttp-反向-ws-配置"><a href="#配置-go-cqhttp-反向-ws-配置" class="headerlink" title="配置 go-cqhttp 反向 ws 配置"></a>配置 go-cqhttp 反向 ws 配置</h3><p>由于 Hoshino 使用反向 websocket 与 go-cqhttp 通信, 所以我们应该对配置文件中的反向 websocket 部分进行配置。</p>
 <p>两种示例, 两种都是正确的, 随便选一种就可以。</p>
 <p>以 HoshinoBot 为例, HoshinoBot 的默认端口是 <code>8080</code> , 因此 go-cqhttp 的反向 ws 上报地址应为 <code>ws://127.0.0.1:8080/ws/</code> 。</p>
 <p>你可以使用 vim 编辑器编辑配置文件 :</p>
-<pre class=" language-shell"><code class="language-shell">vim config.hjson
+<pre class=" language-shell"><code class="language-shell">vim config.yml
 # 不了解 vim 编辑器的速速去了解先</code></pre>
-<p>找到 <code>ws_reverse_servers</code> 部分, 将其修改为 :</p>
-<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
-    ws_reverse_servers<span class="token operator">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">{</span>
-            enabled<span class="token operator">:</span> <span class="token boolean">true</span>
-            reverse_url<span class="token operator">:</span> ws<span class="token operator">:</span>//<span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token number">8080</span>/ws/
-            reverse_api_url<span class="token operator">:</span> <span class="token string">""</span>
-            reverse_event_url<span class="token operator">:</span> <span class="token string">""</span>
-            reverse_reconnect_interval<span class="token operator">:</span> <span class="token number">3000</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span>
-<span class="token punctuation">}</span></code></pre>
+<p>找到 <code>servers</code> 部分, 将其修改为 :</p>
+<pre class=" language-yml"><code class="language-yml">servers:
+  - ws-reverse:
+      universal: ws://127.0.0.1:8080/ws/
+      api: ''
+      event: ''
+      reconnect-interval: 3000
+      middlewares:
+        <<: *default</code></pre>
 <p>或者 :</p>
-<pre class=" language-json"><code class="language-json">    ws_reverse_servers<span class="token operator">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">{</span>
-            enabled<span class="token operator">:</span> <span class="token boolean">true</span>
-            reverse_url<span class="token operator">:</span> <span class="token string">""</span>
-            reverse_api_url<span class="token operator">:</span> ws<span class="token operator">:</span>//<span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token number">8080</span>/ws/api/
-            reverse_event_url<span class="token operator">:</span> ws<span class="token operator">:</span>//<span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token number">8080</span>/ws/event/
-            reverse_reconnect_interval<span class="token operator">:</span> <span class="token number">3000</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span></code></pre>
+<pre class=" language-yml"><code class="language-yml">servers:
+  - ws-reverse:
+      universal: ''
+      api: ws://127.0.0.1:8080/ws/api/
+      event: ws://127.0.0.1:8080/ws/event/
+      reconnect-interval: 3000
+      middlewares:
+        <<: *default</code></pre>
 <p>两种都是正确的, 任意一种即可。</p>
 <p>然后退出 vim 编辑器。</p>
 <h3 id="获取-HoshinoBot"><a href="#获取-HoshinoBot" class="headerlink" title="获取 HoshinoBot"></a>获取 HoshinoBot</h3><p>重头戏来了。</p>
@@ -298,9 +289,7 @@ cd pcrbot
 # 将工作路径切换到这个文件夹
 
 git clone https://github.com/Ice-Cirno/HoshinoBot.git
-# clone 仓库
-
-</code></pre>
+# clone 仓库</code></pre>
 <p>关于安装依赖 :</p>
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 方法一: 使用 poetry ( 推荐 )</span>
 pip3 <span class="token function">install</span> poetry
@@ -318,7 +307,7 @@ pip3 <span class="token function">install</span> -r https://pan.dihe.moe/require
 <pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> HoshinoBot
 <span class="token comment" spellcheck="true"># 切换到 HoshinoBot 目录</span>
 
-<span class="token function">cp</span> -r HoshinoBot/hoshino/config_example HoshinoBot/hoshino/config
+<span class="token function">cp</span> -r hoshino/config_example hoshino/config
 <span class="token comment" spellcheck="true"># 复制配置文件示例</span>
 
 vim hoshino/config/__bot__.py
@@ -362,17 +351,12 @@ cd ~/go-cqhttp
 ./go-cqhttp
 # 运行 go-cqhttp 
 
-# 可能需要异地登录验证, 可能需要滑块验证
-# 滑块验证请看 : https://docs.go-cqhttp.org/faq/slider.html
-
-# 验证可能有点阴间, 请不要放弃
-
-# 验证成功之后, 使用 ./go-cqhttp 这个命令来启动 go-cqhttp, 账号会开始登陆
+# 需要扫码验证登录, 需要先在移动端登录你在配置文件中填写的 bot 的 qq 账号, 然后扫码
 
 # 有极低概率获取到无效的登陆地址而导致登陆失败, 重试即可解决
 
 # 成功登陆后, go-cqhttp 会尝试连接到 Websocket Universal 服务器 ws://127.0.0.1:8080/ws/ 
-# 你现在的 8080 端口上还没有运行 HoshinoBot , 所以会连接不上, 看到连接不上的提示不要慌, 使用组合键 Ctrl + a ,d 挂起这个窗口</code></pre>
+# 此时应该会提示链接出错 ( 因为 HoshinoBot 还没有运行 ), 暂先不管, 直接使用组合键 Ctrl + a ,d 挂起这个窗口</code></pre>
 <p>2, 启动 <code>HoshinoBot</code> :</p>
 <pre class=" language-shell"><code class="language-shell">screen -S hoshino
 #创建一个新的窗口用于运行 HoshinoBot
@@ -390,6 +374,12 @@ python3 run.py</code></pre>
 <pre class=" language-yaml"><code class="language-yaml"><span class="token punctuation">[</span><span class="token datetime number">2020-09-21 22:30:45</span><span class="token punctuation">,</span><span class="token number">435</span><span class="token punctuation">]</span> 127.0.0.1<span class="token punctuation">:</span>56363 GET /ws/ 1.1 101 <span class="token punctuation">-</span> <span class="token number">114514</span></code></pre>
 <p>然后, 使用组合键 Ctrl + a ,d 挂起这个窗口。</p>
 <p>恭喜 ! 你成功搭建了 HoshinoBot , 现在立刻在群里 艾特 你的 bot 并发送一句 <code>kkp</code> 吧 !</p>
+<h3 id="解决-Hoshino-启动时的-Warning"><a href="#解决-Hoshino-启动时的-Warning" class="headerlink" title="解决 Hoshino 启动时的 Warning"></a>解决 Hoshino 启动时的 Warning</h3><p>你启动的时候看到诸如此类的警告信息:</p>
+<pre class=" language-yml"><code class="language-yml">[2021-06-11 00:38:55,020 config] WARNING: Not found config of "xxx"</code></pre>
+<p>你可以无视掉它, 不解决这个问题不会有任何影响, 但下一次启动时你仍然会看到这个警告。</p>
+<p>这个警告的字面意思是没有找到某个模块的配置文件, 在 HoshinoBot 的 config 文件夹创建对应模块的空配置文件即可。</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">touch</span> ~/pcrbot/HoshinoBot/hoshino/config/xxx.py</code></pre>
+<p>xxx 替换成你在控制台看到的, 缺少配置文件的模块。</p>
 <h3 id="Hoshino-的-api-key"><a href="#Hoshino-的-api-key" class="headerlink" title="Hoshino 的 api key"></a>Hoshino 的 api key</h3><p>Hoshino 部分功能需要填写 apikey 后才可使用。</p>
 <h4 id="Mikan-RSS-token"><a href="#Mikan-RSS-token" class="headerlink" title="Mikan RSS token"></a>Mikan RSS token</h4><p>使用 HoshinoBot 的番剧推送功能需要 Mikan 的 rss token,</p>
 <p>你可以在 mikan 注册账号之后, 在 <a href="https://mikanani.me/" target="_blank" rel="noopener">这个页面</a> 鼠标右键点击 RSS 订阅 的图标, 点击 复制链接地址, 然后得到这样一条地址</p>
@@ -425,25 +415,21 @@ wget https://pan.dihe.moe/hourcall.py
 <span class="token punctuation">}</span></code></pre>
 <h3 id="获取-yobot"><a href="#获取-yobot" class="headerlink" title="获取 yobot"></a>获取 yobot</h3><p>两种安装 yobot 的方法。这里只写一种。<br>第二种安装方法在未来将不被支持。<del>懂的都懂。</del></p>
 <h4 id="源码运行"><a href="#源码运行" class="headerlink" title="源码运行"></a>源码运行</h4><p>首先修改 go-cqhttp 的示例并重启, 使其同时向 <code>ws://127.0.0.1:8080/ws/</code> 和 <code>ws://127.0.0.1:9222/ws/</code> 上报事件, 下面的配置文件可供参考 :</p>
-<pre class=" language-json"><code class="language-json"><span class="token punctuation">{</span>
-    ws_reverse_servers<span class="token operator">:</span> <span class="token punctuation">[</span>
-        <span class="token punctuation">{</span>
-            enabled<span class="token operator">:</span> <span class="token boolean">true</span>
-            reverse_url<span class="token operator">:</span> ws<span class="token operator">:</span>//<span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token number">8080</span>/ws/
-            reverse_api_url<span class="token operator">:</span> <span class="token string">""</span>
-            reverse_event_url<span class="token operator">:</span> <span class="token string">""</span>
-            reverse_reconnect_interval<span class="token operator">:</span> <span class="token number">3000</span>
-        <span class="token punctuation">}</span>
-
-        <span class="token punctuation">{</span>
-            enabled<span class="token operator">:</span> <span class="token boolean">true</span>
-            reverse_url<span class="token operator">:</span> ws<span class="token operator">:</span>//<span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token number">9222</span>/ws/
-            reverse_api_url<span class="token operator">:</span> <span class="token string">""</span>
-            reverse_event_url<span class="token operator">:</span> <span class="token string">""</span>
-            reverse_reconnect_interval<span class="token operator">:</span> <span class="token number">3000</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">]</span>
-<span class="token punctuation">}</span></code></pre>
+<pre class=" language-json"><code class="language-json">servers<span class="token operator">:</span>
+  - ws-reverse<span class="token operator">:</span>
+      universal<span class="token operator">:</span> ws<span class="token operator">:</span>//<span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token number">8080</span>/ws/
+      api<span class="token operator">:</span> ''
+      event<span class="token operator">:</span> ''
+      reconnect-interval<span class="token operator">:</span> <span class="token number">3000</span>
+      middlewares<span class="token operator">:</span>
+        &lt;&lt;<span class="token operator">:</span> *default
+  - ws-reverse<span class="token operator">:</span>
+      universal<span class="token operator">:</span> ws<span class="token operator">:</span>//<span class="token number">127.0</span>.<span class="token number">0.1</span><span class="token operator">:</span><span class="token number">9222</span>/ws/
+      api<span class="token operator">:</span> ''
+      event<span class="token operator">:</span> ''
+      reconnect-interval<span class="token operator">:</span> <span class="token number">3000</span>
+      middlewares<span class="token operator">:</span>
+        &lt;&lt;<span class="token operator">:</span> *default</code></pre>
 <p>获取 yobot :</p>
 <pre class=" language-shell"><code class="language-shell">cd ~/pcrbot
 # 切换工作路径到 pcrbot 文件夹
@@ -680,7 +666,13 @@ vim config.json
 
 yarn start
 # 启动 cqps</code></pre>
-<p>注 : cqps 使用正向 ws 的通信方式, 默认端口和 go-cqhttp 的正向 ws 默认端口一致, 如果没更改过 cqps 的配置文件中的 <code>port</code> 字段, 则这样就算完成 cqps 的部署。</p>
+<h4 id="配置正向-ws"><a href="#配置正向-ws" class="headerlink" title="配置正向 ws"></a>配置正向 ws</h4><p>修改 <code>~/go-cqhttp/config.yml</code> , 在 <code>servers</code> 里添加以下内容</p>
+<pre class=" language-yml"><code class="language-yml">  - ws:
+      host: 127.0.0.1
+      port: 6700
+      middlewares:
+        <<: *default</code></pre>
+<p>重启 go-cqhttp</p>
 <h4 id="验证安装-1"><a href="#验证安装-1" class="headerlink" title="验证安装"></a>验证安装</h4><p>bot 会主动联系你 ( 笑 ) 。</p>
 <h3 id="安装更多功能"><a href="#安装更多功能" class="headerlink" title="安装更多功能"></a>安装更多功能</h3><p>访问 <a href="https://github.com/pcrbot/HoshinoBot-plugins-index" target="_blank" rel="noopener">https://github.com/pcrbot/HoshinoBot-plugins-index</a> 寻找你想要的插件, 并按照说明添加即可。</p>
 <h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>如果不愿意折腾的话可以忽略这一部分。。</p>
